@@ -14,7 +14,7 @@ if ( isset($_FILES['uploadedfile']) ) {
     echo '</pre>';
   
   
- $imagick        = new Imagick();
+ $imagick        = new /Imagick();
 
     $rawImage = file_get_contents($filename);
 
