@@ -3,30 +3,7 @@
   <input type="submit" value="Upload">
 </form>
 
-<?php
 
-$draw = new \ImagickDraw();
-$draw->setStrokeColor('Green');
-$draw->setFillColor('Red');
-$draw->setStrokeWidth(7);
-$draw->rectangle(40, 30, 200, 260);
-  
-// Create an image object which the draw
-// commands can be rendered into
-$image = new \Imagick();
-$image->newImage(300, 300, 'White');
-$image->setImageFormat("png");
-  
-// Render the draw commands in the ImagickDraw object 
-// into the image.
-      
-$image->drawImage($draw);
-  
-// Send the image to the browser
-header("Content-Type: image/png");
-echo $image->getImageBlob();
-
-?>
 
 <?php
 if ( isset($_FILES['uploadedfile']) ) {
@@ -35,12 +12,78 @@ if ( isset($_FILES['uploadedfile']) ) {
     echo '<pre>';
  print_r($_FILES);
     echo '</pre>';
-echo '<pre>';
-    
-echo base64_encode(file_get_contents($filename));
-    
-echo '</pre>';
   
-  phpinfo();
+ public static function optimize($filePath) 
+{
+    /**
+     * Compress image
+     */
+    $imagick        = new Imagick();
+
+    $rawImage = file_get_contents($filePath);
+
+    $imagick->readImageBlob($rawImage);
+    $imagick->stripImage();
+
+    // Define image
+    $width      = $imagick->getImageWidth();
+    $height     = $imagick->getImageHeight();
+
+    // Compress image
+    $imagick->setImageCompressionQuality(85);
+
+    $image_types = getimagesize($filePath);
+
+    // Get thumbnail image
+    $imagick->thumbnailImage($width, $height);
+
+    // Set image as based its own type
+    if ($image_types[2] === IMAGETYPE_JPEG)
+    {
+        $imagick->setImageFormat('jpeg');
+
+        $imagick->setSamplingFactors(array('2x2', '1x1', '1x1'));
+
+        $profiles = $imagick->getImageProfiles("icc", true);
+
+        $imagick->stripImage();
+
+        if(!empty($profiles)) {
+            $imagick->profileImage('icc', $profiles['icc']);
+        }
+
+        $imagick->setInterlaceScheme(Imagick::INTERLACE_JPEG);
+        $imagick->setColorspace(Imagick::COLORSPACE_SRGB);
+    }
+    else if ($image_types[2] === IMAGETYPE_PNG) 
+    {
+        $imagick->setImageFormat('png');
+    }
+    else if ($image_types[2] === IMAGETYPE_GIF) 
+    {
+        $imagick->setImageFormat('gif');
+    }
+
+    // Get image raw data
+    $rawData = $imagick->getImageBlob();
+
+    // Destroy image from memory
+    $imagick->destroy();
+
+    return $rawData;
+}
+  
+  
+  
+  
+$optimized = optimize($filename);
+  
+print_r($optimized);
+  
+  
+  
+  
+  
+ 
 }
 ?>
