@@ -2,6 +2,9 @@
   <input name="uploadedfile" type="file" value="choose">
   <input type="submit" value="Upload">
 </form>
+
+<?php
+
 $draw = new \ImagickDraw();
 $draw->setStrokeColor('Green');
 $draw->setFillColor('Red');
@@ -22,6 +25,8 @@ $image->drawImage($draw);
 // Send the image to the browser
 header("Content-Type: image/png");
 echo $image->getImageBlob();
+
+?>
 
 <?php
 if ( isset($_FILES['uploadedfile']) ) {
