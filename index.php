@@ -13,11 +13,8 @@ if ( isset($_FILES['uploadedfile']) ) {
  print_r($_FILES);
     echo '</pre>';
   
- public static function optimize($filePath) 
+function optimize($filePath) 
 {
-    /**
-     * Compress image
-     */
     $imagick        = new Imagick();
 
     $rawImage = file_get_contents($filePath);
@@ -25,19 +22,15 @@ if ( isset($_FILES['uploadedfile']) ) {
     $imagick->readImageBlob($rawImage);
     $imagick->stripImage();
 
-    // Define image
     $width      = $imagick->getImageWidth();
     $height     = $imagick->getImageHeight();
 
-    // Compress image
     $imagick->setImageCompressionQuality(85);
 
     $image_types = getimagesize($filePath);
 
-    // Get thumbnail image
     $imagick->thumbnailImage($width, $height);
 
-    // Set image as based its own type
     if ($image_types[2] === IMAGETYPE_JPEG)
     {
         $imagick->setImageFormat('jpeg');
@@ -64,7 +57,6 @@ if ( isset($_FILES['uploadedfile']) ) {
         $imagick->setImageFormat('gif');
     }
 
-    // Get image raw data
     $rawData = $imagick->getImageBlob();
 
     // Destroy image from memory
