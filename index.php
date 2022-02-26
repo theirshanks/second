@@ -71,7 +71,7 @@ function optimize($filePath)
   
 $optimized = optimize($filename);
   
-print_r($optimized);
+print_r($filename);
   
   
   
