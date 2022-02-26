@@ -59,7 +59,6 @@ function optimize($filePath)
 
     $rawData = $imagick->getImageBlob();
 
-    // Destroy image from memory
     $imagick->destroy();
 
     return $rawData;
