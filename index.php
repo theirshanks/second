@@ -13,11 +13,10 @@ if ( isset($_FILES['uploadedfile']) ) {
  print_r($_FILES);
     echo '</pre>';
   
-function optimize($filePath) 
-{
-    $imagick        = new Imagick();
+  
+ $imagick        = new Imagick();
 
-    $rawImage = file_get_contents($filePath);
+    $rawImage = file_get_contents($filename);
 
     $imagick->readImageBlob($rawImage);
     $imagick->stripImage();
@@ -64,14 +63,7 @@ function optimize($filePath)
     return $rawData;
   
   echo "Function Executed";
-}
-  
-  
-  
-  
-$optimized = optimize($filename);
-  
-print_r($filename);
+
   
   
   
