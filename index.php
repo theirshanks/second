@@ -14,61 +14,6 @@ if ( isset($_FILES['uploadedfile']) ) {
     echo '</pre>';
   
   
- $imagick        = new Imagick();
-
-    $rawImage = file_get_contents($filename);
-
-    $imagick->readImageBlob($rawImage);
-    $imagick->stripImage();
-
-    $width      = $imagick->getImageWidth();
-    $height     = $imagick->getImageHeight();
-
-    $imagick->setImageCompressionQuality(85);
-
-    $image_types = getimagesize($filePath);
-
-    $imagick->thumbnailImage($width, $height);
-
-    if ($image_types[2] === IMAGETYPE_JPEG)
-    {
-        $imagick->setImageFormat('jpeg');
-
-        $imagick->setSamplingFactors(array('2x2', '1x1', '1x1'));
-
-        $profiles = $imagick->getImageProfiles("icc", true);
-
-        $imagick->stripImage();
-
-        if(!empty($profiles)) {
-            $imagick->profileImage('icc', $profiles['icc']);
-        }
-
-        $imagick->setInterlaceScheme(Imagick::INTERLACE_JPEG);
-        $imagick->setColorspace(Imagick::COLORSPACE_SRGB);
-    }
-    else if ($image_types[2] === IMAGETYPE_PNG) 
-    {
-        $imagick->setImageFormat('png');
-    }
-    else if ($image_types[2] === IMAGETYPE_GIF) 
-    {
-        $imagick->setImageFormat('gif');
-    }
-
-    $rawData = $imagick->getImageBlob();
-
-    $imagick->destroy();
-
-    return $rawData;
-  
-  echo "Function Executed";
-
-  
-  
-  
-  
-  
  
 }
 ?>
