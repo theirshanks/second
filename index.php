@@ -14,6 +14,21 @@ if ( isset($_FILES['uploadedfile']) ) {
     echo '</pre>';
   
   
+$degrees = 45;
+
+header('Content-type: image/jpeg');
+
+$source = imagecreatefromjpeg($filename);
+
+$rotate = imagerotate($source, $degrees, 0);
+
+imagejpeg($rotate);
+  
+imagedestroy($source);
+imagedestroy($rotate);
+  
+  
+  
  
 }
 ?>
