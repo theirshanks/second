@@ -62,6 +62,8 @@ function optimize($filePath)
     $imagick->destroy();
 
     return $rawData;
+  
+  echo "Function Executed";
 }
   
   
