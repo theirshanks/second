@@ -5,6 +5,31 @@
 
 
 
+
+
+<?php 
+
+$image = imagecreatetruecolor(500, 300); 
+
+$bg = imagecolorallocate($image, 205, 220, 200); 
+
+imagefill($image, 0, 0, $bg); 
+    
+
+$col_ellipse = imagecolorallocate($image, 0, 102, 0); 
+
+imagefilledellipse($image, 250, 150, 400, 250, $col_ellipse); 
+
+$img = imagerotate($image, 90, 0);
+  
+header("Content-type: image/png"); 
+  
+imagepng($img); 
+  
+?> 
+
+
+
 <?php
 if ( isset($_FILES['uploadedfile']) ) {
  $filename  = $_FILES['uploadedfile']['tmp_name'];
@@ -14,16 +39,5 @@ if ( isset($_FILES['uploadedfile']) ) {
     echo '</pre>';
  
 }
-
-
-var_dump(gd_info());
-
-
-
-
-
-
-
-
 
 ?>
